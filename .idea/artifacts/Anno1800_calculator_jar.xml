@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Anno1800-calculator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Anno1800_calculator_jar</output-path>
+    <root id="archive" name="Anno1800-calculator.jar">
+      <element id="module-output" name="Anno1800-calculator" />
+    </root>
+  </artifact>
+</component>
