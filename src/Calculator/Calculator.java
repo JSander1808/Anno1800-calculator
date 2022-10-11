@@ -24,10 +24,15 @@ public class Calculator {
         E: Export Product trade
         I: Import Product trade
         e: Export Factor
-        i: Export Factor
+        i: Import Factor
          */
 
-        double trade = (E/I)*(e/i);
+        double trade;
+        if(((E/I)*(e/i))>1){
+            trade = (E/I)*(e/i);
+        }else{
+            trade = (I/E)*(i/e);
+        }
         return trade;
     }
 
