@@ -70,16 +70,14 @@ public class GUIUpdater {
                                     if(((E/I)*(e/in))>1){
                                         double trade = (E/I)*(e/in);
                                         complettitem=(productsPerMinute/trade);
-                                        System.out.println("debug2 "+complettitem+" "+trade);
                                         itemsComplett=itemsComplett+complettitem;
                                     }else{
                                         double trade = (I/E)*(in/e);
                                         complettitem=(trade*productsPerMinute);
-                                        System.out.println("debug1 "+complettitem+" "+trade);
                                         itemsComplett=itemsComplett+complettitem;
                                     }
-                                    productPerMinute.append(complettitem).append("\n");
-                                    productBuy.append(complettitem*30).append("\n");
+                                    productPerMinute.append(Math.round(complettitem)).append("\n");
+                                    productBuy.append(Math.round(complettitem*30)).append("\n");
                                 }catch(Exception e){
                                 }
                             }
@@ -94,8 +92,8 @@ public class GUIUpdater {
                 }else{
                     GUI.productResultProductResult.setText("---");
                 }
-                GUI.productResultProductPerMinuteResult.setText(String.valueOf(itemsComplett));
-                GUI.productResultProductBuyResult.setText(String.valueOf(itemsComplett*30));
+                GUI.productResultProductPerMinuteResult.setText(String.valueOf(Math.round(itemsComplett)));
+                GUI.productResultProductBuyResult.setText(String.valueOf(Math.round(itemsComplett*30)));
             }
         },100,100);
     }

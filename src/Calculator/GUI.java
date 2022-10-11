@@ -63,15 +63,19 @@ public class GUI {
             importProductPanel.add(importProductList.get(i));
         }
 
-        JLabel working = new JLabel("➜");
-        working.setBounds(620,346,150,150);
+        JLabel working = new JLabel("❰");
+        working.setBounds(640,346,150,150);
         working.setFont(new Font("TimesRoman",Font.PLAIN,150));
 
+        JLabel exportHeadline = new JLabel("Export Produkte");
+        exportHeadline.setBounds(750,300,400,50);
+        exportHeadline.setFont(new Font("TimesRoman",Font.PLAIN,30));
+
         JPanel resultItem = addResultItem(10);
-        resultItem.setBounds(800,350,600,65);
+        resultItem.setBounds(750,350,600,65);
 
         JPanel result = addResult();
-        result.setBounds(800,415,600,200);
+        result.setBounds(750,415,600,200);
 
 
         frame.add(headline);
@@ -80,6 +84,7 @@ public class GUI {
         frame.add(working);
         frame.add(resultItem);
         frame.add(result);
+        frame.add(exportHeadline);
         frame.setVisible(true);
         new GUIUpdater();
     }
@@ -223,15 +228,15 @@ public class GUI {
         panel.setBounds(0,0,255,70);
 
         productResultProductHeadlineProducts = new JLabel();
-        productResultProductHeadlineProducts.setText("Produkte");
+        productResultProductHeadlineProducts.setText("Produkte:");
         productResultProductHeadlineProducts.setBounds(100,5,150,10);
 
         productResultProductHeadlinePerMinute = new JLabel();
-        productResultProductHeadlinePerMinute.setText("Produkte Pro Minute");
+        productResultProductHeadlinePerMinute.setText("Produkt pro Minute:");
         productResultProductHeadlinePerMinute.setBounds(250,5,150,10);
 
         productResultProductHeadlineBuy = new JLabel();
-        productResultProductHeadlineBuy.setText("zu Kaufen");
+        productResultProductHeadlineBuy.setText("Einzutauschen ist:");
         productResultProductHeadlineBuy.setBounds(450,5,150,10);
 
         productResultHeadline = new JLabel();
@@ -249,6 +254,11 @@ public class GUI {
         productResultProductBuyResult = new JLabel();
         productResultProductBuyResult.setText("0");
         productResultProductBuyResult.setBounds(450,20,100,30);
+
+        JLabel line = new JLabel();
+        line.setText("-----------------------------------------------------------------------------------------------------------------------------------------------");
+        line.setBounds(0,37,640,15);
+        line.setFont(new Font("TimesRoman",Font.PLAIN,20));
 
         productResultProductList = new JTextArea();
         productResultProductList.setBounds(100,50,150,130);
@@ -272,6 +282,7 @@ public class GUI {
         panel.add(productResultProductList);
         panel.add(productResultProductsPerMinuteList);
         panel.add(productResultProductBuyList);
+        panel.add(line);
 
         return panel;
     }
