@@ -1,22 +1,30 @@
 package Calculator;
 
-import FileManager.Config;
-import FileManager.ProductDetail;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.*;
-import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class GUI {
 
+    public static JFrame frame;
     public static ArrayList<JComboBox> productComboBoxList = new ArrayList<JComboBox>();
     public static ArrayList<JTextArea> productTradeAreaList = new ArrayList<JTextArea>();
     public static ArrayList<JTextArea> productLevelList = new ArrayList<JTextArea>();
     public static ArrayList<JTextField> productPerMinuteList = new ArrayList<JTextField>();
     public static ArrayList<JLabel> productPerMinuteNotANumberList = new ArrayList<JLabel>();
+    public static ArrayList<JTextField> productBuyList = new ArrayList<JTextField>();
+    public static ArrayList<JButton> productSwitchMode = new ArrayList<JButton>();
+    public static ArrayList<JLabel> productImage = new ArrayList<JLabel>();
+    public static int[] productSwitchModeIndex = new int[10];
     public static JComboBox productResultItemComboBox;
     public static JTextArea productResultItemTradeArea;
     public static JComboBox productResultItemLevel;
@@ -34,8 +42,8 @@ public class GUI {
     public static JLabel productResultProductHeadlineBuy;
 
     public GUI(){
-        JFrame frame = new JFrame("Anno1800 - Calculator");
-        frame.setSize(1420,820);
+        frame = new JFrame("Anno1800 - Calculator");
+        frame.setSize(1620,820);
         frame.setResizable(false);
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
@@ -52,30 +60,30 @@ public class GUI {
         headlineImportProduct.setFont(new Font("TimesRoman",Font.PLAIN,30));
 
         JPanel importProductPanel = new JPanel();
-        importProductPanel.setBounds(10,100,600,700);
+        importProductPanel.setBounds(10,100,820,700);
         importProductPanel.setLayout(null);
 
         ArrayList<JPanel> importProductList = new ArrayList<JPanel>();
 
         for(int i = 0;i<10;i++){
             importProductList.add(addImportProduct(i));
-            importProductList.get(i).setBounds(0,65*i,600,65);
+            importProductList.get(i).setBounds(0,65*i,820,65);
             importProductPanel.add(importProductList.get(i));
         }
 
         JLabel working = new JLabel("❰");
-        working.setBounds(640,346,150,150);
+        working.setBounds(840,346,150,150);
         working.setFont(new Font("TimesRoman",Font.PLAIN,150));
 
         JLabel exportHeadline = new JLabel("Export Produkte");
-        exportHeadline.setBounds(750,300,400,50);
+        exportHeadline.setBounds(950,300,400,50);
         exportHeadline.setFont(new Font("TimesRoman",Font.PLAIN,30));
 
         JPanel resultItem = addResultItem(10);
-        resultItem.setBounds(750,350,600,65);
+        resultItem.setBounds(950,350,600,65);
 
         JPanel result = addResult();
-        result.setBounds(750,415,600,200);
+        result.setBounds(950,415,600,200);
 
 
         frame.add(headline);
@@ -143,8 +151,55 @@ public class GUI {
         productPerMinuteNotANumberList.add(new JLabel());
         productPerMinuteNotANumberList.get(i).setText("Hier dürfen nur Zahlen angegeben werden!");
         productPerMinuteNotANumberList.get(i).setForeground(Color.red);
-        productPerMinuteNotANumberList.get(i).setBounds(330,45, 300,20);
+        productPerMinuteNotANumberList.get(i).setBounds(385,45, 300,20);
         productPerMinuteNotANumberList.get(i).setVisible(false);
+
+        JLabel productBuy = new JLabel();
+        productBuy.setText("Produkte 1x");
+        productBuy.setBounds(510,0,130,20);
+
+        productBuyList.add(new JTextField());
+        productBuyList.get(i).setBounds(510,25,130,20);
+        productBuyList.get(i).disable();
+
+        productSwitchMode.add(new JButton());
+        productSwitchMode.get(i).setBounds(650,25,70,20);
+        productSwitchMode.get(i).setText("Switch");
+        productSwitchMode.get(i).setFont(new Font("TimesRoman",Font.PLAIN,11));
+        productSwitchModeIndex[i]=0;
+        productSwitchMode.get(i).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(productSwitchModeIndex[i]==0){
+                    productPerMinuteList.get(i).disable();
+                    productBuyList.get(i).enable();
+                    productSwitchModeIndex[i]=1;
+                    frame.repaint();
+                }else{
+                    productPerMinuteList.get(i).enable();
+                    productBuyList.get(i).disable();
+                    productSwitchModeIndex[i]=0;
+                    frame.repaint();
+                }
+            }
+        });
+
+        JButton clear = new JButton();
+        clear.setText("🗑");
+        clear.setBounds(740,15,50,30);
+        clear.setFont(new Font("TimesRoman",Font.PLAIN,20));
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                productComboBoxList.get(i).setSelectedItem("Nichts");
+                productPerMinuteList.get(i).setText("");
+                productBuyList.get(i).setText("");
+                productPerMinuteList.get(i).enable();
+                productBuyList.get(i).disable();
+                productSwitchModeIndex[i]=0;
+                frame.repaint();
+            }
+        });
 
         panel.add(product);
         panel.add(productComboBoxList.get(i));
@@ -155,6 +210,10 @@ public class GUI {
         panel.add(productPerMinute);
         panel.add(productPerMinuteList.get(i));
         panel.add(productPerMinuteNotANumberList.get(i));
+        panel.add(productBuy);
+        panel.add(productBuyList.get(i));
+        panel.add(productSwitchMode.get(i));
+        panel.add(clear);
         return panel;
     }
 
@@ -310,6 +369,14 @@ public class GUI {
         frame.add(headline);
         frame.add(content);
         frame.repaint();
+    }
+
+    public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+        return resizedImage;
     }
 
 }

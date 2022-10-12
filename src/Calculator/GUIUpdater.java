@@ -2,6 +2,12 @@ package Calculator;
 
 import FileManager.Config;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,7 +31,7 @@ public class GUIUpdater {
                         GUI.productLevelList.get(i).setText("0");
                     }
                     try{
-                        int temp = Integer.parseInt(GUI.productPerMinuteList.get(i).getText());
+                        double temp = Double.parseDouble(GUI.productPerMinuteList.get(i).getText());
                         GUI.productPerMinuteNotANumberList.get(i).setVisible(false);
                     }catch(Exception e){
                         if(GUI.productPerMinuteList.get(i).getText().replace(" ","").equalsIgnoreCase("")||GUI.productPerMinuteList.get(i).getText()==null){
@@ -45,10 +51,15 @@ public class GUIUpdater {
                 for(int j = 0;j<10;j++){
                     if(!GUI.productResultItemComboBox.getSelectedItem().toString().equalsIgnoreCase("Nichts")){
                         if(!GUI.productComboBoxList.get(j).getSelectedItem().toString().equalsIgnoreCase("Nichts")){
-                            if(!GUI.productPerMinuteList.get(j).getText().replace(" ","").equalsIgnoreCase("")){
+                            if(!GUI.productPerMinuteList.get(j).getText().replace(" ","").equalsIgnoreCase("")||!GUI.productBuyList.get(j).getText().replace(" ","").equalsIgnoreCase("")){
                                 try{
                                     productsList.append(GUI.productComboBoxList.get(j).getSelectedItem().toString()).append("\n");
-                                    int productsPerMinute = Integer.valueOf(GUI.productPerMinuteList.get(j).getText());
+                                    int products = 0;
+                                    if(GUI.productSwitchModeIndex[j]==0){
+                                        products = Integer.valueOf(GUI.productPerMinuteList.get(j).getText());
+                                    }else if(GUI.productSwitchModeIndex[j]==1){
+                                        products = Integer.valueOf(GUI.productBuyList.get(j).getText());
+                                    }
                                     double productTrade = Double.valueOf(config.get(GUI.productComboBoxList.get(j).getSelectedItem().toString()).getTrade());
                                     double productLevel = Double.valueOf(config.get(GUI.productComboBoxList.get(j).getSelectedItem().toString()).getLevel());
                                     double E = Double.valueOf(config.get(GUI.productResultItemComboBox.getSelectedItem().toString()).getTrade());
@@ -69,15 +80,23 @@ public class GUIUpdater {
                                     double complettitem = 0;
                                     if(((E/I)*(e/in))>1){
                                         double trade = (E/I)*(e/in);
-                                        complettitem=(productsPerMinute/trade);
+                                        if(GUI.productSwitchModeIndex[j]==0){
+                                            complettitem=(products/trade);
+                                        }else if(GUI.productSwitchModeIndex[j]==1){
+                                            complettitem=((products)/trade)/30;
+                                        }
                                         itemsComplett=itemsComplett+complettitem;
                                     }else{
                                         double trade = (I/E)*(in/e);
-                                        complettitem=(trade*productsPerMinute);
+                                        if(GUI.productSwitchModeIndex[j]==0){
+                                            complettitem=(products*trade);
+                                        }else if(GUI.productSwitchModeIndex[j]==1){
+                                            complettitem=(products*trade)/30;
+                                        }
                                         itemsComplett=itemsComplett+complettitem;
                                     }
-                                    productPerMinute.append(Math.round(complettitem)).append("\n");
-                                    productBuy.append(Math.round(complettitem*30)).append("\n");
+                                        productPerMinute.append(round(complettitem,3)).append("\n");
+                                        productBuy.append(round(complettitem*30, 3)).append("\n");
                                 }catch(Exception e){
                                 }
                             }
@@ -92,9 +111,21 @@ public class GUIUpdater {
                 }else{
                     GUI.productResultProductResult.setText("---");
                 }
-                GUI.productResultProductPerMinuteResult.setText(String.valueOf(Math.round(itemsComplett)));
-                GUI.productResultProductBuyResult.setText(String.valueOf(Math.round(itemsComplett*30)));
+                GUI.productResultProductPerMinuteResult.setText(String.valueOf(round(itemsComplett,3)));
+                GUI.productResultProductBuyResult.setText(String.valueOf(round(itemsComplett*30,3)));
             }
         },100,100);
+    }
+    public double round(double value, int decimalPoints) {
+        double d = Math.pow(10, decimalPoints);
+        return Math.round(value * d) / d;
+    }
+
+    public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+        return resizedImage;
     }
 }
