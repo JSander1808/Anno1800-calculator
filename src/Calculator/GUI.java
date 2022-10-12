@@ -83,7 +83,7 @@ public class GUI {
         resultItem.setBounds(950,350,600,65);
 
         JPanel result = addResult();
-        result.setBounds(950,415,600,200);
+        result.setBounds(950,415,600,250);
 
 
         frame.add(headline);
@@ -320,15 +320,15 @@ public class GUI {
         line.setFont(new Font("TimesRoman",Font.PLAIN,20));
 
         productResultProductList = new JTextArea();
-        productResultProductList.setBounds(100,50,150,130);
+        productResultProductList.setBounds(100,50,150,170);
         productResultProductList.setFocusable(false);
 
         productResultProductsPerMinuteList = new JTextArea();
-        productResultProductsPerMinuteList.setBounds(250,50,100,130);
+        productResultProductsPerMinuteList.setBounds(250,50,100,170);
         productResultProductsPerMinuteList.setFocusable(false);
 
         productResultProductBuyList = new JTextArea();
-        productResultProductBuyList.setBounds(450,50,100,130);
+        productResultProductBuyList.setBounds(450,50,100,170);
         productResultProductBuyList.setFocusable(false);
 
         panel.add(productResultProductHeadlineProducts);
