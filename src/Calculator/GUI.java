@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class GUI {
 
     public static JFrame frame;
+    public static int[] importItems = new int[10];
     public static ArrayList<JComboBox> productComboBoxList = new ArrayList<JComboBox>();
     public static ArrayList<JTextArea> productTradeAreaList = new ArrayList<JTextArea>();
     public static ArrayList<JTextArea> productLevelList = new ArrayList<JTextArea>();
@@ -24,6 +25,7 @@ public class GUI {
     public static ArrayList<JTextField> productBuyList = new ArrayList<JTextField>();
     public static ArrayList<JButton> productSwitchMode = new ArrayList<JButton>();
     public static ArrayList<JLabel> productImage = new ArrayList<JLabel>();
+    public static ArrayList<JPanel> importProductList = new ArrayList<JPanel>();
     public static int[] productSwitchModeIndex = new int[10];
     public static JComboBox productResultItemComboBox;
     public static JTextArea productResultItemTradeArea;
@@ -59,16 +61,56 @@ public class GUI {
         headlineImportProduct.setBounds(20,60,400,40);
         headlineImportProduct.setFont(new Font("TimesRoman",Font.PLAIN,30));
 
+        JButton addImportItem = new JButton("Plus");
+        addImportItem.setBounds(760,80,70,20);
+        addImportItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(int i = 0;i<10;i++){
+                    if(importItems[i]==0){
+                        importItems[i]=1;
+                        break;
+                    }
+                }
+            }
+        });
+
+        JButton removeImportItem = new JButton("Minus");
+        removeImportItem.setBounds(690,80,70,20);
+        removeImportItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(int i = 9;i>=0;i--){
+                    if(importItems[i]==1){
+                        importItems[i]=0;
+                        productComboBoxList.get(i).setSelectedItem("Nichts");
+                        productPerMinuteList.get(i).setText("");
+                        productBuyList.get(i).setText("");
+                        productPerMinuteList.get(i).enable();
+                        productBuyList.get(i).disable();
+                        productSwitchModeIndex[i]=0;
+                        frame.repaint();
+                        break;
+                    }
+                }
+            }
+        });
+
         JPanel importProductPanel = new JPanel();
-        importProductPanel.setBounds(10,100,820,700);
+        importProductPanel.setBounds(10,100,820,650);
         importProductPanel.setLayout(null);
+        importProductPanel.setBorder(new LineBorder(Color.black));
 
-        ArrayList<JPanel> importProductList = new ArrayList<JPanel>();
-
+        importItems[0]=1;
         for(int i = 0;i<10;i++){
             importProductList.add(addImportProduct(i));
             importProductList.get(i).setBounds(0,65*i,820,65);
             importProductPanel.add(importProductList.get(i));
+            if(importItems[i]==1){
+                importProductList.get(i).setVisible(true);
+            }else{
+                importProductList.get(i).setVisible(false);
+            }
         }
 
         JLabel working = new JLabel("❰");
@@ -88,6 +130,8 @@ public class GUI {
 
         frame.add(headline);
         frame.add(headlineImportProduct);
+        frame.add(addImportItem);
+        frame.add(removeImportItem);
         frame.add(importProductPanel);
         frame.add(working);
         frame.add(resultItem);

@@ -47,6 +47,11 @@ public class GUIUpdater {
                     }else{
                         GUI.productResultItemTradeArea.setText("0");
                     }
+                    if(GUI.importItems[i]==1){
+                        GUI.importProductList.get(i).setVisible(true);
+                    }else{
+                        GUI.importProductList.get(i).setVisible(false);
+                    }
                 }
                 for(int j = 0;j<10;j++){
                     if(!GUI.productResultItemComboBox.getSelectedItem().toString().equalsIgnoreCase("Nichts")){
