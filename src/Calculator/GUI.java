@@ -123,7 +123,7 @@ public class GUI {
                  settingsIcon = new ImageIcon(resizeImage(ImageIO.read(new File("pictures/settingsLogolight.png")),45,45));
              }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            getError(e);
         }
         settingsMenuButton = new JButton("",settingsIcon);
         settingsMenuButton.setBounds(1490,0,50,50);
