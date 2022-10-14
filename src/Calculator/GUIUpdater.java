@@ -4,16 +4,23 @@ import FileManager.Config;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import Calculator.GUI;
+
+import static Calculator.GUI.dark;
+import static Calculator.GUI.logoBufferedImage;
 
 public class GUIUpdater {
+
+    public static Timer timer;
     public GUIUpdater(){
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
