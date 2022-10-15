@@ -134,8 +134,8 @@ public class GUIUpdater {
                 }else{
                     GUI.productResultProductResult.setText("---");
                 }
-                GUI.productResultProductPerMinuteResult.setText(String.valueOf(round(itemsComplett,3)));
-                GUI.productResultProductBuyResult.setText(String.valueOf(round(itemsComplett*30,3)));
+                GUI.productResultProductPerMinuteResult.setText(String.valueOf(round(itemsComplett,1)));
+                GUI.productResultProductBuyResult.setText(String.valueOf(round(itemsComplett*30,1)));
             }
         },100,100);
     }

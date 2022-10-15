@@ -121,15 +121,15 @@ public class GUI {
         }
 
         JPanel settingsMenu = addSettingsPanel();
-        settingsMenu.setBounds(1190,60,350,200);
+        settingsMenu.setBounds(1190,60,350,220);
         settingsMenu.setVisible(false);
 
         saveMenu = addSaveMenu();
-        saveMenu.setBounds(1190,60,350,200);
+        saveMenu.setBounds(1190,60,350,220);
         saveMenu.setVisible(false);
 
         loadMenu = addLoadMenu();
-        loadMenu.setBounds(1190,60,350,200);
+        loadMenu.setBounds(1190,60,350,220);
         loadMenu.setVisible(false);
 
         try {
@@ -142,11 +142,11 @@ public class GUI {
             getError(e);
         }
         settingsMenuButton = new JButton("",settingsIcon);
-        settingsMenuButton.setBounds(1490,3,50,50);
+        settingsMenuButton.setBounds(1500,3,50,50);
 
 
         saveButton = new JButton();
-        saveButton.setBounds(1430,3,50,50);
+        saveButton.setBounds(1440,3,50,50);
 
         try {
             if(dark){
@@ -159,19 +159,7 @@ public class GUI {
         }
 
         loadButton = new JButton();
-        loadButton.setBounds(1370,3,50,50);
-        try {
-            if(dark){
-                loadButton.setIcon(new ImageIcon(resizeImage(ImageIO.read(new File("pictures/loaddark.png")),45,45)));
-            }else{
-                loadButton.setIcon(new ImageIcon(resizeImage(ImageIO.read(new File("pictures/loadlight.png")),45,45)));
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        loadButton = new JButton();
-        loadButton.setBounds(1370,3,50,50);
+        loadButton.setBounds(1380,3,50,50);
         try {
             if(dark){
                 loadButton.setIcon(new ImageIcon(resizeImage(ImageIO.read(new File("pictures/loaddark.png")),45,45)));
@@ -187,12 +175,12 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 if(loadMenu.isVisible()){
                     loadMenu.setVisible(false);
-                    loadButton.setBounds(1370,3,50,50);
+                    loadButton.setBounds(1380,3,50,50);
                 }else{
-                    loadButton.setBounds(1370,10,50,50);
+                    loadButton.setBounds(1380,10,50,50);
                     loadMenu.setVisible(true);
-                    settingsMenuButton.setBounds(1490,3,50,50);
-                    saveButton.setBounds(1430,3,50,50);
+                    settingsMenuButton.setBounds(1500,3,50,50);
+                    saveButton.setBounds(1440,3,50,50);
                     settingsMenu.setVisible(false);
                     saveMenu.setVisible(false);
                     importFileName.removeAllItems();
@@ -213,12 +201,12 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 if(settingsMenu.isVisible()){
                     settingsMenu.setVisible(false);
-                    settingsMenuButton.setBounds(1490,3,50,50);
+                    settingsMenuButton.setBounds(1500,3,50,50);
                 }else{
                     settingsMenu.setVisible(true);
-                    settingsMenuButton.setBounds(1490,10,50,50);
-                    saveButton.setBounds(1430,3,50,50);
-                    loadButton.setBounds(1370,3,50,50);
+                    settingsMenuButton.setBounds(1500,10,50,50);
+                    saveButton.setBounds(1440,3,50,50);
+                    loadButton.setBounds(1380,3,50,50);
                     saveMenu.setVisible(false);
                     loadMenu.setVisible(false);
                 }
@@ -229,7 +217,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 if(saveMenu.isVisible()){
                     saveMenu.setVisible(false);
-                    saveButton.setBounds(1430,3,50,50);
+                    saveButton.setBounds(1440,3,50,50);
                 }else{
                     saves.removeAllItems();
                     NormalConfig nc = new NormalConfig("data/saves/config.txt");
@@ -241,9 +229,9 @@ public class GUI {
                         }
                     }
                     saveMenu.setVisible(true);
-                    saveButton.setBounds(1430,10,50,50);
-                    settingsMenuButton.setBounds(1490,3,50,50);
-                    loadButton.setBounds(1370,3,50,50);
+                    saveButton.setBounds(1440,10,50,50);
+                    settingsMenuButton.setBounds(1500,3,50,50);
+                    loadButton.setBounds(1380,3,50,50);
                     settingsMenu.setVisible(false);
                     loadMenu.setVisible(false);
                 }
@@ -270,10 +258,10 @@ public class GUI {
         logoIconResult = new ImageIcon(logoBufferedImage);
         logoLabel = new JLabel();
         logoLabel.setIcon(logoIconResult);
-        logoLabel.setBounds(1450,625,150,150);
+        logoLabel.setBounds(1400,625,150,150);
 
         JLabel version = new JLabel(Main.version);
-        version.setBounds(1550,0,50,20);
+        version.setBounds(1330,0,50,20);
         version.setForeground(Color.gray);
 
         headlineImportProduct = new JLabel();
@@ -1077,7 +1065,7 @@ public class GUI {
                     writer.write(DataManager.saveData());
                     writer.flush();
                     saveMenu.setVisible(false);
-                    saveButton.setBounds(1430,3,50,50);
+                    saveButton.setBounds(1440,3,50,50);
                 } catch (FileNotFoundException ex) {
                     getError(ex);
                 }
@@ -1095,8 +1083,18 @@ public class GUI {
             cut.setForeground(Color.black);
         }
 
+        JLabel headline = new JLabel("Neuen Speicherstand erstellen");
+        headline.setBounds(5,105,400,20);
+        if(dark){
+            headline.setBackground(new Color(41,41,41));
+            headline.setForeground(Color.white);
+        }else{
+            headline.setBackground(Color.white);
+            headline.setForeground(Color.black);
+        }
+
         JTextField saveAsNewFileName = new JTextField();
-        saveAsNewFileName.setBounds(5,105,300,20);
+        saveAsNewFileName.setBounds(5,125,300,20);
         if(dark){
             saveAsNewFileName.setBackground(new Color(41,41,41));
             saveAsNewFileName.setForeground(Color.white);
@@ -1108,7 +1106,7 @@ public class GUI {
         }
 
         JButton saveAsNew = new JButton("Speichen als");
-        saveAsNew.setBounds(5,135,120,20);
+        saveAsNew.setBounds(5,155,120,20);
         if(dark){
             saveAsNew.setBackground(new Color(41,41,41));
             saveAsNew.setForeground(Color.white);
@@ -1131,7 +1129,7 @@ public class GUI {
                         writer.flush();
                         saveAsNewFileName.setText("");
                         saveMenu.setVisible(false);
-                        saveButton.setBounds(1430,3,50,50);
+                        saveButton.setBounds(1440,3,50,50);
                     }
                 } catch (IOException ex) {
                     getError(ex);
@@ -1140,7 +1138,7 @@ public class GUI {
         });
 
         sessionLink = new JButton("Session Link Kopieren");
-        sessionLink.setBounds(5,175,225,20);
+        sessionLink.setBounds(5,195,225,20);
         if(dark){
             sessionLink.setBackground(new Color(41,41,41));
             sessionLink.setForeground(Color.white);
@@ -1158,7 +1156,7 @@ public class GUI {
         });
 
         JButton openSavesDic = new JButton("Open Folder");
-        openSavesDic.setBounds(245,175,100,20);
+        openSavesDic.setBounds(245,195,100,20);
         openSavesDic.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1181,6 +1179,7 @@ public class GUI {
 
 
         panel.add(saveAsNewFileName);
+        panel.add(headline);
         panel.add(saveAsNew);
         panel.add(cut);
         panel.add(saveAsOldSave);
@@ -1216,8 +1215,19 @@ public class GUI {
             loadHeadline.setBackground(Color.white);
         }
 
+        JLabel dataHeadline = new JLabel();
+        dataHeadline.setText("Datei zum laden Auswählen.");
+        dataHeadline.setBounds(5,35,300,20);
+        if(dark){
+            dataHeadline.setBackground(new Color(41,41,41));
+            dataHeadline.setForeground(Color.white);
+        }else{
+            dataHeadline.setBackground(Color.white);
+            dataHeadline.setForeground(Color.black);
+        }
+
         importFileName = new JComboBox();
-        importFileName.setBounds(5,40,300,20);
+        importFileName.setBounds(5,60,300,20);
         if(dark){
             importFileName.setBackground(new Color(41,41,41));
             importFileName.setForeground(Color.white);
@@ -1229,7 +1239,7 @@ public class GUI {
         }
 
         JButton load = new JButton("Load Data");
-        load.setBounds(5,65,100,20);
+        load.setBounds(5,85,100,20);
         if(dark){
             load.setBackground(new Color(41,41,41));
             load.setForeground(Color.white);
@@ -1247,7 +1257,7 @@ public class GUI {
                     BufferedReader reader = new BufferedReader(new FileReader(file));
                     DataManager.loadData(reader.readLine());
                     loadMenu.setVisible(false);
-                    loadButton.setBounds(1370,3,50,50);
+                    loadButton.setBounds(1380,3,50,50);
                 } catch (FileNotFoundException ex) {
                     getError(ex);
                 } catch (IOException ex) {
@@ -1256,20 +1266,29 @@ public class GUI {
             }
         });
 
+        JLabel cut = new JLabel("---------------------------------------------------------");
+        cut.setBounds(0,105,400,9);
+        cut.setFont(new Font("TimesRoman",Font.PLAIN,30));
+        if(dark){
+            cut.setBackground(new Color(41,41,41));
+            cut.setForeground(Color.white);
+        }else{
+            cut.setBackground(Color.white);
+            cut.setForeground(Color.black);
+        }
+
         JLabel headline = new JLabel("Hier Session Link einfügen.");
-        headline.setBounds(5,90,150,20);
+        headline.setBounds(5,115,190,20);
         if(dark){
             headline.setBackground(new Color(41,41,41));
             headline.setForeground(Color.white);
-            headline.setBorder(new LineBorder(Color.white));
         }else{
             headline.setBackground(Color.white);
             headline.setForeground(Color.black);
-            headline.setBorder(new LineBorder(Color.black));
         }
 
         JTextField sessionlink = new JTextField();
-        sessionlink.setBounds(5,115,200,20);
+        sessionlink.setBounds(5,145,200,20);
         if(dark){
             sessionlink.setBackground(new Color(41,41,41));
             sessionlink.setForeground(Color.white);
@@ -1281,7 +1300,7 @@ public class GUI {
         }
 
          JButton sessionLinkSubmit = new JButton("Session Link Einfügen");
-        sessionLinkSubmit.setBounds(210,115,130,20);
+        sessionLinkSubmit.setBounds(210,145,130,20);
         if(dark){
             sessionLinkSubmit.setBackground(new Color(41,41,41));
             sessionLinkSubmit.setForeground(Color.white);
@@ -1296,11 +1315,13 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 DataManager.loadData(sessionlink.getText());
                 loadMenu.setVisible(false);
-                loadButton.setBounds(1370,3,50,50);
+                loadButton.setBounds(1380,3,50,50);
             }
         });
 
         panel.add(importFileName);
+        panel.add(cut);
+        panel.add(dataHeadline);
         panel.add(sessionlink);
         panel.add(headline);
         panel.add(load);
