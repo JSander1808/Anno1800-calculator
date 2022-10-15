@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.tools.Tool;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -73,6 +74,13 @@ public class GUI {
     public static JLabel productBuy;
     public static JButton clear;
     public static JButton settingsSubmitButton;
+    public static JButton saveButton;
+    public static JButton loadButton;
+    public static JPanel saveMenu;
+    public static JComboBox saves;
+    public static JButton sessionLink;
+    public static JComboBox importFileName;
+    public static JPanel loadMenu;
 
     public GUI(){
         normalconfig.init();
@@ -113,8 +121,16 @@ public class GUI {
         }
 
         JPanel settingsMenu = addSettingsPanel();
-        settingsMenu.setBounds(1190,55,350,200);
+        settingsMenu.setBounds(1190,60,350,200);
         settingsMenu.setVisible(false);
+
+        saveMenu = addSaveMenu();
+        saveMenu.setBounds(1190,60,350,200);
+        saveMenu.setVisible(false);
+
+        loadMenu = addLoadMenu();
+        loadMenu.setBounds(1190,60,350,200);
+        loadMenu.setVisible(false);
 
         try {
              if(dark){
@@ -126,14 +142,110 @@ public class GUI {
             getError(e);
         }
         settingsMenuButton = new JButton("",settingsIcon);
-        settingsMenuButton.setBounds(1490,0,50,50);
+        settingsMenuButton.setBounds(1490,3,50,50);
+
+
+        saveButton = new JButton();
+        saveButton.setBounds(1430,3,50,50);
+
+        try {
+            if(dark){
+                saveButton.setIcon(new ImageIcon(resizeImage(ImageIO.read(new File("pictures/savedark.png")),45,45)));
+            }else{
+                saveButton.setIcon(new ImageIcon(resizeImage(ImageIO.read(new File("pictures/savelight.png")),45,45)));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        loadButton = new JButton();
+        loadButton.setBounds(1370,3,50,50);
+        try {
+            if(dark){
+                loadButton.setIcon(new ImageIcon(resizeImage(ImageIO.read(new File("pictures/loaddark.png")),45,45)));
+            }else{
+                loadButton.setIcon(new ImageIcon(resizeImage(ImageIO.read(new File("pictures/loadlight.png")),45,45)));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        loadButton = new JButton();
+        loadButton.setBounds(1370,3,50,50);
+        try {
+            if(dark){
+                loadButton.setIcon(new ImageIcon(resizeImage(ImageIO.read(new File("pictures/loaddark.png")),45,45)));
+            }else{
+                loadButton.setIcon(new ImageIcon(resizeImage(ImageIO.read(new File("pictures/loadlight.png")),45,45)));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(loadMenu.isVisible()){
+                    loadMenu.setVisible(false);
+                    loadButton.setBounds(1370,3,50,50);
+                }else{
+                    loadButton.setBounds(1370,10,50,50);
+                    loadMenu.setVisible(true);
+                    settingsMenuButton.setBounds(1490,3,50,50);
+                    saveButton.setBounds(1430,3,50,50);
+                    settingsMenu.setVisible(false);
+                    saveMenu.setVisible(false);
+                    importFileName.removeAllItems();
+                    NormalConfig nc = new NormalConfig("data/saves/config.txt");
+                    nc.init();
+                    File[] saveFiles = new File("data/saves/").listFiles();
+                    for(int i = 0;i<saveFiles.length;i++){
+                        if(!saveFiles[i].getName().equalsIgnoreCase("config.txt")){
+                            importFileName.addItem(saveFiles[i].getName());
+                        }
+                    }
+                }
+            }
+        });
+
         settingsMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(settingsMenu.isVisible()){
                     settingsMenu.setVisible(false);
+                    settingsMenuButton.setBounds(1490,3,50,50);
                 }else{
                     settingsMenu.setVisible(true);
+                    settingsMenuButton.setBounds(1490,10,50,50);
+                    saveButton.setBounds(1430,3,50,50);
+                    loadButton.setBounds(1370,3,50,50);
+                    saveMenu.setVisible(false);
+                    loadMenu.setVisible(false);
+                }
+            }
+        });
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(saveMenu.isVisible()){
+                    saveMenu.setVisible(false);
+                    saveButton.setBounds(1430,3,50,50);
+                }else{
+                    saves.removeAllItems();
+                    NormalConfig nc = new NormalConfig("data/saves/config.txt");
+                    nc.init();
+                    File[] saveFiles = new File("data/saves/").listFiles();
+                    for(int i = 0;i<saveFiles.length;i++){
+                        if(!saveFiles[i].getName().equalsIgnoreCase("config.txt")){
+                            saves.addItem(saveFiles[i].getName());
+                        }
+                    }
+                    saveMenu.setVisible(true);
+                    saveButton.setBounds(1430,10,50,50);
+                    settingsMenuButton.setBounds(1490,3,50,50);
+                    loadButton.setBounds(1370,3,50,50);
+                    settingsMenu.setVisible(false);
+                    loadMenu.setVisible(false);
                 }
             }
         });
@@ -262,7 +374,7 @@ public class GUI {
         }
 
         exportHeadline = new JLabel("Export Produkte");
-        exportHeadline.setBounds(950,220,400,50);
+        exportHeadline.setBounds(950,240,400,50);
         exportHeadline.setFont(new Font("TimesRoman",Font.PLAIN,30));
         if(dark){
             exportHeadline.setBackground(new Color(41,41,41));
@@ -273,7 +385,7 @@ public class GUI {
         }
 
         resultItem = addResultItem(10);
-        resultItem.setBounds(950,270,600,65);
+        resultItem.setBounds(950,290,600,65);
         if(dark){
             resultItem.setBackground(new Color(41,41,41));
             resultItem.setForeground(Color.white);
@@ -283,7 +395,7 @@ public class GUI {
         }
 
         result = addResult();
-        result.setBounds(950,335,600,250);
+        result.setBounds(950,355,600,250);
         if(dark){
             result.setBackground(new Color(41,41,41));
             result.setForeground(Color.white);
@@ -295,9 +407,13 @@ public class GUI {
         }
 
         frame.add(settingsMenu);
+        frame.add(saveMenu);
+        frame.add(loadMenu);
         frame.add(headline);
         frame.add(logoLabel);
         frame.add(version);
+        frame.add(loadButton);
+        frame.add(saveButton);
         frame.add(settingsMenuButton);
         frame.add(headlineImportProduct);
         frame.add(addImportItem);
@@ -477,15 +593,9 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(productSwitchModeIndex[i]==0){
-                    productPerMinuteList.get(i).disable();
-                    productBuyList.get(i).enable();
                     productSwitchModeIndex[i]=1;
-                    frame.repaint();
                 }else{
-                    productPerMinuteList.get(i).enable();
-                    productBuyList.get(i).disable();
                     productSwitchModeIndex[i]=0;
-                    frame.repaint();
                 }
             }
         });
@@ -894,9 +1004,308 @@ public class GUI {
             }
         });
 
+        if(dark){
+            settingsSubmitButton.setBackground(new Color(41,41,41));
+            settingsSubmitButton.setForeground(Color.white);
+            settingsSubmitButton.setBorder(new LineBorder(Color.white));
+        }else{
+            settingsSubmitButton.setBackground(Color.white);
+            settingsSubmitButton.setForeground(Color.black);
+            settingsSubmitButton.setBorder(new LineBorder(Color.black));
+        }
+
         panel.add(settingsHeadline);
         panel.add(settingsSubmitButton);
         panel.add(darkModeEnable);
+        return panel;
+    }
+
+    public static JPanel addSaveMenu(){
+        JPanel panel = new JPanel();
+        panel.setVisible(true);
+        panel.setLayout(null);
+        if(dark){
+            panel.setBackground(new Color(41,41,41));
+            panel.setForeground(Color.white);
+            panel.setBorder(new LineBorder(Color.white));
+        }else{
+            panel.setBackground(Color.white);
+            panel.setForeground(Color.black);
+            panel.setBorder(new LineBorder(Color.black));
+        }
+
+        JLabel saveHeadline = new JLabel("Daten Speichern");
+        saveHeadline.setBounds(5,5,200,30);
+        saveHeadline.setFont(new Font("TimesRoman",Font.PLAIN,20));
+        if(dark){
+            saveHeadline.setBackground(new Color(41,41,41));
+            saveHeadline.setForeground(Color.white);
+        }else{
+            saveHeadline.setForeground(Color.black);
+            saveHeadline.setBackground(Color.white);
+        }
+
+        saves = new JComboBox();
+        saves.setBounds(5,40,300,20);
+        if(dark){
+            saves.setBackground(new Color(41,41,41));
+            saves.setForeground(Color.white);
+            saves.setBorder(new LineBorder(Color.white));
+        }else{
+            saves.setBackground(Color.white);
+            saves.setForeground(Color.black);
+            saves.setBorder(new LineBorder(Color.black));
+        }
+
+        JButton saveAsOldSave = new JButton("Überschreiben");
+        saveAsOldSave.setBounds(5,65,100,20);
+        if(dark){
+            saveAsOldSave.setBackground(new Color(41,41,41));
+            saveAsOldSave.setForeground(Color.white);
+            saveAsOldSave.setBorder(new LineBorder(Color.white));
+        }else{
+            saveAsOldSave.setBackground(Color.white);
+            saveAsOldSave.setForeground(Color.black);
+            saveAsOldSave.setBorder(new LineBorder(Color.black));
+        }
+        saveAsOldSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                File file = new File("data/saves/"+saves.getSelectedItem().toString());
+                try {
+                    PrintWriter writer = new PrintWriter(file);
+                    writer.write(DataManager.saveData());
+                    writer.flush();
+                    saveMenu.setVisible(false);
+                    saveButton.setBounds(1430,3,50,50);
+                } catch (FileNotFoundException ex) {
+                    getError(ex);
+                }
+            }
+        });
+
+        JLabel cut = new JLabel("---------------------------------------------------------");
+        cut.setBounds(0,85,400,9);
+        cut.setFont(new Font("TimesRoman",Font.PLAIN,30));
+        if(dark){
+            cut.setBackground(new Color(41,41,41));
+            cut.setForeground(Color.white);
+        }else{
+            cut.setBackground(Color.white);
+            cut.setForeground(Color.black);
+        }
+
+        JTextField saveAsNewFileName = new JTextField();
+        saveAsNewFileName.setBounds(5,105,300,20);
+        if(dark){
+            saveAsNewFileName.setBackground(new Color(41,41,41));
+            saveAsNewFileName.setForeground(Color.white);
+            saveAsNewFileName.setBorder(new LineBorder(Color.white));
+        }else{
+            saveAsNewFileName.setBackground(Color.white);
+            saveAsNewFileName.setForeground(Color.black);
+            saveAsNewFileName.setBorder(new LineBorder(Color.black));
+        }
+
+        JButton saveAsNew = new JButton("Speichen als");
+        saveAsNew.setBounds(5,135,120,20);
+        if(dark){
+            saveAsNew.setBackground(new Color(41,41,41));
+            saveAsNew.setForeground(Color.white);
+            saveAsNew.setBorder(new LineBorder(Color.white));
+        }else{
+            saveAsNew.setBackground(Color.white);
+            saveAsNew.setForeground(Color.black);
+            saveAsNew.setBorder(new LineBorder(Color.black));
+        }
+        saveAsNew.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    File file = new File("data/saves/"+saveAsNewFileName.getText()+".txt");
+                    if(file.exists()){
+                        saveAsNewFileName.setText("Diese datei exestiert bereits.");
+                    }else{
+                        PrintWriter writer = new PrintWriter(file);
+                        writer.write(DataManager.saveData()+"\n");
+                        writer.flush();
+                        saveAsNewFileName.setText("");
+                        saveMenu.setVisible(false);
+                        saveButton.setBounds(1430,3,50,50);
+                    }
+                } catch (IOException ex) {
+                    getError(ex);
+                }
+            }
+        });
+
+        sessionLink = new JButton("Session Link Kopieren");
+        sessionLink.setBounds(5,175,225,20);
+        if(dark){
+            sessionLink.setBackground(new Color(41,41,41));
+            sessionLink.setForeground(Color.white);
+            sessionLink.setBorder(new LineBorder(Color.white));
+        }else{
+            sessionLink.setBackground(Color.white);
+            sessionLink.setForeground(Color.black);
+            sessionLink.setBorder(new LineBorder(Color.black));
+        }
+        sessionLink.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(DataManager.saveData()),null);
+            }
+        });
+
+        JButton openSavesDic = new JButton("Open Folder");
+        openSavesDic.setBounds(245,175,100,20);
+        openSavesDic.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Desktop.getDesktop().open(new File("data/saves/"));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        if(dark){
+            openSavesDic.setBackground(new Color(41,41,41));
+            openSavesDic.setForeground(Color.white);
+            openSavesDic.setBorder(new LineBorder(Color.white));
+        }else{
+            openSavesDic.setBackground(Color.white);
+            openSavesDic.setForeground(Color.black);
+            openSavesDic.setBorder(new LineBorder(Color.black));
+        }
+
+
+        panel.add(saveAsNewFileName);
+        panel.add(saveAsNew);
+        panel.add(cut);
+        panel.add(saveAsOldSave);
+        panel.add(saves);
+        panel.add(saveHeadline);
+        panel.add(openSavesDic);
+        panel.add(sessionLink);
+        return panel;
+    }
+
+    public static JPanel addLoadMenu(){
+        JPanel panel = new JPanel();
+        panel.setVisible(true);
+        panel.setLayout(null);
+        if(dark){
+            panel.setBackground(new Color(41,41,41));
+            panel.setForeground(Color.white);
+            panel.setBorder(new LineBorder(Color.white));
+        }else{
+            panel.setBackground(Color.white);
+            panel.setForeground(Color.black);
+            panel.setBorder(new LineBorder(Color.black));
+        }
+
+        JLabel loadHeadline = new JLabel("Daten Laden");
+        loadHeadline.setBounds(5,5,200,30);
+        loadHeadline.setFont(new Font("TimesRoman",Font.PLAIN,20));
+        if(dark){
+            loadHeadline.setBackground(new Color(41,41,41));
+            loadHeadline.setForeground(Color.white);
+        }else{
+            loadHeadline.setForeground(Color.black);
+            loadHeadline.setBackground(Color.white);
+        }
+
+        importFileName = new JComboBox();
+        importFileName.setBounds(5,40,300,20);
+        if(dark){
+            importFileName.setBackground(new Color(41,41,41));
+            importFileName.setForeground(Color.white);
+            importFileName.setBorder(new LineBorder(Color.white));
+        }else{
+            importFileName.setBackground(Color.white);
+            importFileName.setForeground(Color.black);
+            importFileName.setBorder(new LineBorder(Color.black));
+        }
+
+        JButton load = new JButton("Load Data");
+        load.setBounds(5,65,100,20);
+        if(dark){
+            load.setBackground(new Color(41,41,41));
+            load.setForeground(Color.white);
+            load.setBorder(new LineBorder(Color.white));
+        }else{
+            load.setBackground(Color.white);
+            load.setForeground(Color.black);
+            load.setBorder(new LineBorder(Color.black));
+        }
+        load.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    File file = new File("data/saves/"+importFileName.getSelectedItem().toString());
+                    BufferedReader reader = new BufferedReader(new FileReader(file));
+                    DataManager.loadData(reader.readLine());
+                    loadMenu.setVisible(false);
+                    loadButton.setBounds(1370,3,50,50);
+                } catch (FileNotFoundException ex) {
+                    getError(ex);
+                } catch (IOException ex) {
+                    getError(ex);
+                }
+            }
+        });
+
+        JLabel headline = new JLabel("Hier Session Link einfügen.");
+        headline.setBounds(5,90,150,20);
+        if(dark){
+            headline.setBackground(new Color(41,41,41));
+            headline.setForeground(Color.white);
+            headline.setBorder(new LineBorder(Color.white));
+        }else{
+            headline.setBackground(Color.white);
+            headline.setForeground(Color.black);
+            headline.setBorder(new LineBorder(Color.black));
+        }
+
+        JTextField sessionlink = new JTextField();
+        sessionlink.setBounds(5,115,200,20);
+        if(dark){
+            sessionlink.setBackground(new Color(41,41,41));
+            sessionlink.setForeground(Color.white);
+            sessionlink.setBorder(new LineBorder(Color.white));
+        }else{
+            sessionlink.setBackground(Color.white);
+            sessionlink.setForeground(Color.black);
+            sessionlink.setBorder(new LineBorder(Color.black));
+        }
+
+         JButton sessionLinkSubmit = new JButton("Session Link Einfügen");
+        sessionLinkSubmit.setBounds(210,115,130,20);
+        if(dark){
+            sessionLinkSubmit.setBackground(new Color(41,41,41));
+            sessionLinkSubmit.setForeground(Color.white);
+            sessionLinkSubmit.setBorder(new LineBorder(Color.white));
+        }else{
+            sessionLinkSubmit.setBackground(Color.white);
+            sessionLinkSubmit.setForeground(Color.black);
+            sessionLinkSubmit.setBorder(new LineBorder(Color.black));
+        }
+        sessionLinkSubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DataManager.loadData(sessionlink.getText());
+                loadMenu.setVisible(false);
+                loadButton.setBounds(1370,3,50,50);
+            }
+        });
+
+        panel.add(importFileName);
+        panel.add(sessionlink);
+        panel.add(headline);
+        panel.add(load);
+        panel.add(loadHeadline);
+        panel.add(sessionLinkSubmit);
         return panel;
     }
 

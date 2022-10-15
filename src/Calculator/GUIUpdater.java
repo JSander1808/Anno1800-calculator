@@ -59,6 +59,17 @@ public class GUIUpdater {
                     }else{
                         GUI.importProductList.get(i).setVisible(false);
                     }
+                    if(GUI.productSwitchModeIndex[i]==1){
+                        GUI.productPerMinuteList.get(i).disable();
+                        GUI.productBuyList.get(i).enable();
+                        GUI.productSwitchModeIndex[i]=1;
+                        GUI.frame.repaint();
+                    }else{
+                        GUI.productPerMinuteList.get(i).enable();
+                        GUI.productBuyList.get(i).disable();
+                        GUI.productSwitchModeIndex[i]=0;
+                        GUI.frame.repaint();
+                    }
                 }
                 for(int j = 0;j<10;j++){
                     if(!GUI.productResultItemComboBox.getSelectedItem().toString().equalsIgnoreCase("Nichts")){
