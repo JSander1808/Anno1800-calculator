@@ -24,6 +24,12 @@ public class DataManager {
     public static void loadData(String data){
         for(int i = 0;i<10;i++){
             GUI.importItems[i]=0;
+            GUI.productComboBoxList.get(i).setSelectedItem("Nichts");
+            GUI.productPerMinuteList.get(i).setText("");
+            GUI.productBuyList.get(i).setText("");
+            GUI.productPerMinuteList.get(i).enable();
+            GUI.productBuyList.get(i).disable();
+            GUI.productSwitchModeIndex[i]=0;
         }
         String[] mainData = data.split("--");
         String[] importData = mainData[0].split("/");

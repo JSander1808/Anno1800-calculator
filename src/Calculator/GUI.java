@@ -121,15 +121,15 @@ public class GUI {
         }
 
         JPanel settingsMenu = addSettingsPanel();
-        settingsMenu.setBounds(1190,60,350,220);
+        settingsMenu.setBounds(1200,60,350,220);
         settingsMenu.setVisible(false);
 
         saveMenu = addSaveMenu();
-        saveMenu.setBounds(1190,60,350,220);
+        saveMenu.setBounds(1200,60,350,220);
         saveMenu.setVisible(false);
 
         loadMenu = addLoadMenu();
-        loadMenu.setBounds(1190,60,350,220);
+        loadMenu.setBounds(1200,60,350,220);
         loadMenu.setVisible(false);
 
         try {
@@ -973,6 +973,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 normalconfig.set("darkmode",""+darkModeEnable.isSelected());
+                String tempSave = DataManager.saveData();
                 frame.dispose();
                 GUIUpdater.timer.cancel();
                 importItems = new int[10];
@@ -988,6 +989,7 @@ public class GUI {
                 importProductList = new ArrayList<JPanel>();
                 productSwitchModeIndex = new int[10];
                 new GUI();
+                DataManager.loadData(tempSave);
                 frame.repaint();
             }
         });
