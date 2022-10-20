@@ -18,7 +18,6 @@ import java.awt.image.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HexFormat;
 
 public class GUI {
     public static NormalConfig normalconfig = new NormalConfig("data/config.txt");
