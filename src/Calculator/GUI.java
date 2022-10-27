@@ -8,7 +8,6 @@ import org.w3c.dom.css.RGBColor;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.tools.Tool;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
@@ -142,7 +141,6 @@ public class GUI {
         }
         settingsMenuButton = new JButton("",settingsIcon);
         settingsMenuButton.setBounds(1500,3,50,50);
-
 
         saveButton = new JButton();
         saveButton.setBounds(1440,3,50,50);
