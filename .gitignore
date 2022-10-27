@@ -1,4 +1,4 @@
-.idea
-out
-data
-Anno1800-calculator.iml
+*.idea
+out/**/*
+data/**/*
+*.Anno1800-calculator.iml
