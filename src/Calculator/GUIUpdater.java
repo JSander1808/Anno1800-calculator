@@ -13,8 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import Calculator.GUI;
 
-import static Calculator.GUI.dark;
-import static Calculator.GUI.logoBufferedImage;
+import static Calculator.GUI.*;
 
 public class GUIUpdater {
 
@@ -37,14 +36,27 @@ public class GUIUpdater {
                         GUI.productTradeAreaList.get(i).setText("0");
                         GUI.productLevelList.get(i).setText("0");
                     }
-                    try{
-                        double temp = Double.parseDouble(GUI.productPerMinuteList.get(i).getText());
-                        GUI.productPerMinuteNotANumberList.get(i).setVisible(false);
-                    }catch(Exception e){
-                        if(GUI.productPerMinuteList.get(i).getText().replace(" ","").equalsIgnoreCase("")||GUI.productPerMinuteList.get(i).getText()==null){
+                    if(productSwitchModeIndex[i]==0) {
+                        try {
+                            double temp = Double.parseDouble(GUI.productPerMinuteList.get(i).getText());
                             GUI.productPerMinuteNotANumberList.get(i).setVisible(false);
-                        }else{
-                            GUI.productPerMinuteNotANumberList.get(i).setVisible(true);
+                        } catch (Exception e) {
+                            if (GUI.productPerMinuteList.get(i).getText().replace(" ", "").equalsIgnoreCase("") || GUI.productPerMinuteList.get(i).getText() == null) {
+                                GUI.productPerMinuteNotANumberList.get(i).setVisible(false);
+                            } else {
+                                GUI.productPerMinuteNotANumberList.get(i).setVisible(true);
+                            }
+                        }
+                    }else{
+                        try {
+                            double temp1 = Double.parseDouble(GUI.productBuyList.get(i).getText());
+                            GUI.productPerMinuteNotANumberList.get(i).setVisible(false);
+                        } catch (Exception e) {
+                            if (GUI.productBuyList.get(i).getText().replace(" ","").equalsIgnoreCase("")||GUI.productBuyList.get(i).getText()==null) {
+                                GUI.productPerMinuteNotANumberList.get(i).setVisible(false);
+                            } else {
+                                GUI.productPerMinuteNotANumberList.get(i).setVisible(true);
+                            }
                         }
                     }
 

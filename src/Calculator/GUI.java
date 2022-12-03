@@ -428,6 +428,7 @@ public class GUI {
         }
 
         product = new JLabel("Produkt:");
+        product.setToolTipText("Das Produkt was gekauft wird.");
         product.setBounds(10,0,100,20);
         if(dark){
             product.setBackground(new Color(41,41,41));
@@ -464,6 +465,7 @@ public class GUI {
         }
 
         productTrade = new JLabel("Produkt Wert:");
+        productTrade.setToolTipText("Den Wert den das Produkt hat.");
         productTrade.setBounds(150,0,100,20);
         if(dark){
             productTrade.setBackground(new Color(41,41,41));
@@ -486,6 +488,7 @@ public class GUI {
         }
 
         productLevel = new JLabel("Produkt Level");
+        productLevel.setToolTipText("Die Seltenheit die das Produkt hat.");
         productLevel.setBounds(260,0,100,20);
         if(dark){
             productLevel.setBackground(new Color(41,41,41));
@@ -508,6 +511,7 @@ public class GUI {
         }
 
         productPerMinute = new JLabel("Produkte pro Minute:");
+        productPerMinute.setToolTipText("Wie viel pro Minute benötigt wird.");
         productPerMinute.setBounds(370,0,130,20);
         if(dark){
             productPerMinute.setBackground(new Color(41,41,41));
@@ -542,6 +546,7 @@ public class GUI {
 
         productBuy = new JLabel();
         productBuy.setText("Produkte 1x");
+        productBuy.setToolTipText("Die Anzahl wird gekauft wenn gehandelt wird.");
         productBuy.setBounds(510,0,130,20);
         if(dark){
             productBuy.setBackground(new Color(41,41,41));
@@ -644,6 +649,7 @@ public class GUI {
         }
 
         JLabel product = new JLabel("Produkt:");
+        product.setToolTipText("Das Produkt was verkauft wird.");
         product.setBounds(10,0,100,20);
         if(dark){
             product.setBackground(new Color(41,41,41));
@@ -678,6 +684,7 @@ public class GUI {
         }
 
         JLabel productTrade = new JLabel("Produkt Wert:");
+        productTrade.setToolTipText("Den Wert den das Produkt hat.");
         productTrade.setBounds(150,0,100,20);
         if(dark){
             productTrade.setBackground(new Color(41,41,41));
@@ -700,6 +707,7 @@ public class GUI {
         }
 
         JLabel productLevel = new JLabel("Produkt Level");
+        productLevel.setToolTipText("Die Seltenheit des Produktes.");
         productLevel.setBounds(260,0,100,20);
         if(dark){
             productLevel.setBackground(new Color(41,41,41));
